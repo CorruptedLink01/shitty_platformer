@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			AppGameContainer container = new AppGameContainer(new Engine("Platformer"));
-			container.setDisplayMode(Window.width, Window.height, false);
+			container.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
 			container.start();
 		}catch(SlickException e) {
 			e.printStackTrace();

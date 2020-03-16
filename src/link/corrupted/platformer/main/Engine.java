@@ -1,5 +1,9 @@
 package link.corrupted.platformer.main;
 
+import link.corrupted.platformer.resources.Resources;
+import link.corrupted.platformer.states.MainMenuState;
+import link.corrupted.platformer.states.OptionsState;
+import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -12,6 +16,17 @@ public class Engine extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer gameContainer) throws SlickException {
+		gameContainer.setMaximumLogicUpdateInterval(Window.FPS);
+		gameContainer.setTargetFrameRate(Window.FPS);
+
+		//TODO make these ingame options
+//		gameContainer.setShowFPS(false);
+//		gameContainer.setVSync(true);
+
+		new Resources();
+
+		addState(new MainMenuState());
+		addState(new OptionsState());
 
 	}
 }

@@ -2,7 +2,9 @@ package link.corrupted.platformer.util;
 
 public class Window {
 
-	public static int width = 800;
-	public static int height = 600;
+	public static int WIDTH = 800;
+	public static int HEIGHT = 600;
+
+	public static int FPS = 120;
 
 }
