@@ -5,7 +5,6 @@ import link.corrupted.platformer.states.MainMenuState;
 import link.corrupted.platformer.states.OptionsState;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Engine extends StateBasedGame {
@@ -14,8 +13,15 @@ public class Engine extends StateBasedGame {
 		super(name);
 	}
 
+	/* TODO
+	 *
+	 * Download GOSN
+	 * Make levels
+	 */
+
+
 	@Override
-	public void initStatesList(GameContainer gameContainer) throws SlickException {
+	public void initStatesList(GameContainer gameContainer) {
 		gameContainer.setMaximumLogicUpdateInterval(Window.FPS);
 		gameContainer.setTargetFrameRate(Window.FPS);
 

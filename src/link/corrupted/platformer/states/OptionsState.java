@@ -1,11 +1,16 @@
 package link.corrupted.platformer.states;
 
+import link.corrupted.platformer.resources.Resources;
+import link.corrupted.platformer.resources.Sprites;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class OptionsState extends LinksGameState {
+
+	private StateBasedGame game;
 
 	public OptionsState() {
 		super(States.OPTION);
@@ -13,17 +18,31 @@ public class OptionsState extends LinksGameState {
 
 	@Override
 	public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-
+		this.game = game;
 	}
 
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		graphics.drawString("OPTION", 200, 100);
+		float scale = 0.8F;
+		for(Sprites.Player1Sprites s : Sprites.Player1Sprites.values()) {
+			Resources.getPlayer1Sprite(s).getScaledCopy(scale).draw((72 * scale) * s.getX(), (97 * scale) * s.getY());
+		}
+
+		for(Sprites.SmallTileSprites s : Sprites.SmallTileSprites.values()) {
+			Resources.getSmallTileSprite(s).getScaledCopy(scale).draw((5 * scale) * s.getX(), 300 +(24 * scale) * s.getY());
+		}
 
 	}
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+		if(gameContainer.getInput().isKeyPressed(Input.KEY_1)) {
+			stateBasedGame.enterState(States.MENU.getId());
+		}
+	}
+
+	@Override
+	public void keyPressed(int key, char c) {
 
 	}
 }
