@@ -19,6 +19,7 @@ public class Resources {
 
 		try {
 			sprites.put("player1", loadSprite(PLAYER.getPath() + "/p1_spritesheet.png", 72, 97));
+			sprites.put("tiles", loadSprite(TILES.getPath() + "/tiles_spritesheet.png", 72, 72));
 		}catch(SlickException e) {
 			e.printStackTrace();
 		}
@@ -33,7 +34,7 @@ public class Resources {
 		return new SpriteSheet(loadImage(path), width, heigth);
 	}
 
-	public static Image getPlayer1Sprite(Sprites.Player1 sprite) {
+	public static Image getPlayer1Sprite(Sprites.Player1Sprites sprite) {
 		return getSprite("player1", sprite.getX(), sprite.getY());
 	}
 

@@ -20,7 +20,7 @@ public class Engine extends StateBasedGame {
 		gameContainer.setTargetFrameRate(Window.FPS);
 
 		//TODO make these ingame options
-//		gameContainer.setShowFPS(false);
+		gameContainer.setShowFPS(false);
 //		gameContainer.setVSync(true);
 
 		new Resources();
