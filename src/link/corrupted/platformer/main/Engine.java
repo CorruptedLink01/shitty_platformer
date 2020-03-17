@@ -1,6 +1,8 @@
 package link.corrupted.platformer.main;
 
 import link.corrupted.platformer.resources.Resources;
+import link.corrupted.platformer.states.LevelSelectState;
+import link.corrupted.platformer.states.LevelState;
 import link.corrupted.platformer.states.MainMenuState;
 import link.corrupted.platformer.states.OptionsState;
 import link.corrupted.platformer.util.Window;
@@ -12,13 +14,6 @@ public class Engine extends StateBasedGame {
 	public Engine(String name) {
 		super(name);
 	}
-
-	/* TODO
-	 *
-	 * Download GOSN
-	 * Make levels
-	 */
-
 
 	@Override
 	public void initStatesList(GameContainer gameContainer) {
@@ -33,6 +28,8 @@ public class Engine extends StateBasedGame {
 
 		addState(new MainMenuState());
 		addState(new OptionsState());
+		addState(new LevelSelectState());
+		addState(new LevelState());
 
 	}
 }

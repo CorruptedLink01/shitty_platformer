@@ -31,7 +31,6 @@ public class MainMenuState extends LinksGameState {
 		for(Sprites.TileSprites s : Sprites.TileSprites.values()) {
 			Resources.getTileSprite(s).getScaledCopy(scale).draw((70 * scale) * s.getX(), (70 * scale) * s.getY());
 		}
-
 	}
 
 	@Override
@@ -43,5 +42,6 @@ public class MainMenuState extends LinksGameState {
 
 	@Override
 	public void keyPressed(int key, char c) {
+
 	}
 }

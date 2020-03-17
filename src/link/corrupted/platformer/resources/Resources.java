@@ -11,6 +11,8 @@ import static link.corrupted.platformer.resources.Resources.ResourceFolders.*;
 
 public class Resources {
 
+	public static final int TILE_SIZE = 70;
+
 	private static Map<String, SpriteSheet> sprites;
 	private static Map<String, Image> images;
 
@@ -23,7 +25,7 @@ public class Resources {
 			images.put("castleBackground", loadImage(RESOURCE + "/bg_castle.png"));
 
 			sprites.put("player1", loadSprite(PLAYER + "/p1_spritesheet.png", 72, 97));
-			sprites.put("tiles", loadSprite(TILES + "/tiles_spritesheet.png", 70, 70));
+			sprites.put("tiles", loadSprite(TILES + "/tiles_spritesheet.png", TILE_SIZE, TILE_SIZE));
 			sprites.put("small_tiles", loadSprite(TILES + "/small_tiles_spritesheet.png", 5, 24));
 		}catch(SlickException e) {
 			e.printStackTrace();
@@ -43,6 +45,10 @@ public class Resources {
 		return images.get(name);
 	}
 
+	public static SpriteSheet getSpriteSheet(String name) {
+		return sprites.get(name);
+	}
+
 	public static Image getPlayer1Sprite(Sprites.Player1Sprites sprite) {
 		return getSprite("player1", sprite.getX(), sprite.getY());
 	}
@@ -59,7 +65,7 @@ public class Resources {
 		return sprites.get(name).getSubImage(x, y);
 	}
 
-	public class ResourceFolders {
+	public static class ResourceFolders {
 		public static final String RESOURCE ="resources";
 		public static final String PLAYER = "resources/player";
 		public static final String ENEMIES = "resources/enemies";
