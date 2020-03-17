@@ -29,7 +29,7 @@ public class MainMenuState extends LinksGameState {
 		float scale = 0.8F;
 
 		for(Sprites.TileSprites s : Sprites.TileSprites.values()) {
-			Resources.getTileSprite(s).getScaledCopy(scale).draw((69 * scale) * s.getX(), (69 * scale) * s.getY());
+			Resources.getTileSprite(s).getScaledCopy(scale).draw((70 * scale) * s.getX(), (70 * scale) * s.getY());
 		}
 
 	}

@@ -19,12 +19,12 @@ public class Resources {
 		images = new HashMap<>();
 
 		try {
-			images.put("background", loadImage(RESOURCE.getPath() + "/bg.png"));
-			images.put("castleBackground", loadImage(RESOURCE.getPath() + "/bg_castle.png"));
+			images.put("background", loadImage(RESOURCE + "/bg.png"));
+			images.put("castleBackground", loadImage(RESOURCE + "/bg_castle.png"));
 
-			sprites.put("player1", loadSprite(PLAYER.getPath() + "/p1_spritesheet.png", 72, 97));
-			sprites.put("tiles", loadSprite(TILES.getPath() + "/tiles_spritesheet.png", 72, 72));
-			sprites.put("small_tiles", loadSprite(TILES.getPath() + "/small_tiles_spritesheet.png", 5, 24));
+			sprites.put("player1", loadSprite(PLAYER + "/p1_spritesheet.png", 72, 97));
+			sprites.put("tiles", loadSprite(TILES + "/tiles_spritesheet.png", 70, 70));
+			sprites.put("small_tiles", loadSprite(TILES + "/small_tiles_spritesheet.png", 5, 24));
 		}catch(SlickException e) {
 			e.printStackTrace();
 		}
@@ -35,8 +35,8 @@ public class Resources {
 		return new Image(path, false, Image.FILTER_NEAREST);
 	}
 
-	private SpriteSheet loadSprite(String path, int width, int heigth) throws SlickException {
-		return new SpriteSheet(loadImage(path), width, heigth);
+	private SpriteSheet loadSprite(String path, int width, int height) throws SlickException {
+		return new SpriteSheet(loadImage(path), width, height);
 	}
 
 	public static Image getImage(String name) {
@@ -59,22 +59,14 @@ public class Resources {
 		return sprites.get(name).getSubImage(x, y);
 	}
 
-	protected enum ResourceFolders {
-		RESOURCE("resources"),
-		PLAYER("resources/Player"),
-		ENEMIES("resources/Enemies"),
-		TILES("resources/Tiles"),
-		ITEMS("resources/Items");
+	public class ResourceFolders {
+		public static final String RESOURCE ="resources";
+		public static final String PLAYER = "resources/player";
+		public static final String ENEMIES = "resources/enemies";
+		public static final String TILES = "resources/tiles";
+		public static final String ITEMS = "resources/items";
+		public static final String LEVELS = "resources/levels";
 
-		private String path;
-
-		ResourceFolders(String path) {
-			this.path = path;
-		}
-
-		public String getPath() {
-			return path;
-		}
 	}
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="34" height="20" tilewidth="70" tileheight="70" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="../tiles/tiles_spritesheet.tsx"/>
+ <layer id="2" name="background" width="34" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACmNgGAWjYBTQG6gDMS+VzBKFYhUgFofSMKBDQK8JEEsh8R2BuI9MdyhhweQCPyCejSbmRoF5o2AUjIJRMAqGFgAA2t6auqAKAAA=
+  </data>
+ </layer>
+ <layer id="1" name="solids" width="34" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACmNgGAWjYBSMBKAMxAVAXEiGXkMq2AvDYkC8FEm+mwR32eGRg5mDC8PsRcfIAJ3vBcQGWMRssYjjAuhmYhMjxB8Fo2AUjIKRBgAPpnoZoAoAAA==
+  </data>
+ </layer>
+ <layer id="3" name="foreground" width="34" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACmNgGAWjYBSMglFADZA/wBgG9EfxKB7Fo3iIYwCS9h2joAoAAA==
+  </data>
+ </layer>
+</map>
