@@ -13,6 +13,9 @@ public class Level {
 	private int height;
 	private int width;
 
+	private int spawnX;
+	private int spawnY;
+
 	private LevelLoader loader;
 
 	public Level(String name, String jsonName, String background) {
@@ -25,6 +28,8 @@ public class Level {
 		loader = new LevelLoader(Resources.ResourceFolders.LEVELS + "/" + jsonName + ".json");
 		height = loader.getHeight();
 		width = loader.getWidth();
+		spawnX = loader.getSpawnX();
+		spawnY = loader.getSpawnY();
 		backgroundImage = Resources.getImage(background);
 	}
 
@@ -54,5 +59,13 @@ public class Level {
 
 	public int getWidth() {
 		return width;
+	}
+
+	public int getSpawnX() {
+		return spawnX;
+	}
+
+	public int getSpawnY() {
+		return spawnY;
 	}
 }

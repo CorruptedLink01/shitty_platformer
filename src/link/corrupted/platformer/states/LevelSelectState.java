@@ -41,6 +41,6 @@ public class LevelSelectState extends LinksGameState {
 	}
 
 	private void enterLevel(StateBasedGame stateBasedGame) {
-			stateBasedGame.enterState(LEVEL.getId());
+		stateBasedGame.enterState(LEVEL.getId());
 	}
 }

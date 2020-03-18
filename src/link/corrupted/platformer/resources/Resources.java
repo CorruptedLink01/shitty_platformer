@@ -57,6 +57,10 @@ public class Resources {
 		return getSprite("tiles", sprite.getX(), sprite.getY());
 	}
 
+	public static Image getTileSprite(int x, int y) {
+		return getSprite("tiles", x, y);
+	}
+
 	public static Image getSmallTileSprite(Sprites.SmallTileSprites sprite) {
 		return getSprite("small_tiles", sprite.getX(), sprite.getY());
 	}

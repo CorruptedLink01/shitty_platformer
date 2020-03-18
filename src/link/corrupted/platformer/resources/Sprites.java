@@ -20,7 +20,6 @@ public class Sprites {
 		JUMP(6, 1),
 		STAND(1, 2);
 
-
 		private int x;
 		private int y;
 
@@ -38,6 +37,7 @@ public class Sprites {
 		public int getY() {
 			return y;
 		}
+
 	}
 
 

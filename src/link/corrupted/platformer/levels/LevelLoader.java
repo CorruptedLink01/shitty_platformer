@@ -13,6 +13,9 @@ import static link.corrupted.platformer.resources.Resources.TILE_SIZE;
 
 public class LevelLoader {
 
+	public static final int RENDER_SIZE = (int)(TILE_SIZE / 1.3F);
+	public static final float SCALE = TILE_SIZE / RENDER_SIZE;
+
 	private Image[][] background;
 	private Image[][] solids;
 	private Image[][] foreground;
@@ -23,6 +26,10 @@ public class LevelLoader {
 	private boolean isBackgroundEnabled = true;
 	private boolean isSolidEnabled = true;
 	private boolean isForegroundEnabled = true;
+
+	private int spawnX = 0;
+	private int spawnY = 0;
+
 
 	public LevelLoader(String path) {
 		try {
@@ -35,21 +42,21 @@ public class LevelLoader {
 	public void render(float xRender, float yRender) {
 
 		int offset = 2;
-		int xStart = (int)(xRender / TILE_SIZE) - offset;
-		int yStart = (int)(yRender / TILE_SIZE) - offset;
-		int xEnd = (Window.WIDTH / TILE_SIZE) + xStart + offset * 2;
-		int yEnd = (Window.HEIGHT / TILE_SIZE) + yStart + offset * 2;
+		int xStart = (int)(xRender / RENDER_SIZE) - offset;
+		int yStart = (int)(yRender / RENDER_SIZE) - offset;
+		int xEnd = (Window.WIDTH / RENDER_SIZE) + xStart + offset * RENDER_SIZE;
+		int yEnd = (Window.HEIGHT / RENDER_SIZE) + yStart + offset * RENDER_SIZE;
 
 		for(int x = xStart; x < xEnd; x++) {
 			for(int y = yStart; y < yEnd; y++) {
 				if(isTileBackground(x, y) && isBackgroundEnabled) {
-					background[x][y].draw(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+					background[x][y].draw(x * RENDER_SIZE, y * RENDER_SIZE, RENDER_SIZE, RENDER_SIZE);
 				}
 				if(isTileSolid(x, y) && isSolidEnabled) {
-					solids[x][y].draw(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+					solids[x][y].draw(x * RENDER_SIZE, y * RENDER_SIZE, RENDER_SIZE, RENDER_SIZE);
 				}
 				if(isTileForeground(x, y) && isForegroundEnabled) {
-					foreground[x][y].draw(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+					foreground[x][y].draw(x * RENDER_SIZE, y * RENDER_SIZE, RENDER_SIZE, RENDER_SIZE);
 				}
 			}
 		}
@@ -73,27 +80,42 @@ public class LevelLoader {
 
 			switch(type) {
 				case "background":
-					background = parse(layer.get("data").getAsJsonArray());
+					background = parseData(layer.getAsJsonArray("data"));
 					break;
 				case "solids":
-					solids = parse(layer.get("data").getAsJsonArray());
+					solids = parseData(layer.getAsJsonArray("data"));
 					break;
 				case "foreground":
-					foreground = parse(layer.get("data").getAsJsonArray());
+					foreground = parseData(layer.getAsJsonArray("data"));
 					break;
+				case "objects":
+					parseObjectData(layer.getAsJsonArray("objects"));
 			}
 
 		}
 
 	}
 
-	private Image[][] parse(JsonArray arr) {
+	private void parseObjectData(JsonArray arr) {
+		int offset = 2;
+		for(int i = 0; i < arr.size(); i++) {
+			JsonObject object = (JsonObject)arr.get(i);
+			String type = object.get("name").getAsString();
+
+			if(type.equals("spawn")) {
+				spawnX = object.get("x").getAsInt() - offset;
+				spawnY = object.get("y").getAsInt() - offset;
+			}
+		}
+	}
+
+	private Image[][] parseData(JsonArray arr) {
 		Image[][] layers = new Image[width][height];
 
 		JsonElement index;
-		for(int y = 0; y < width; y++) {
-			for(int x = 0; x < height; x++) {
-				if((y * width + x) >= arr.size()) {
+		for(int y = 0; y < height; y++) {
+			for(int x = 0; x < width; x++) {
+				if((y * height + x) >= arr.size()) {
 					break;
 				}
 				index = arr.get(y * width + x);
@@ -118,7 +140,7 @@ public class LevelLoader {
 		int x = (index % h);
 		int y = (index / v);
 
-		return sheet.getSubImage(x, y);
+		return Resources.getTileSprite(x, y);
 	}
 
 	private boolean inBounds(int x, int y) {
@@ -155,6 +177,14 @@ public class LevelLoader {
 
 	public int getWidth() {
 		return width;
+	}
+
+	public int getSpawnX() {
+		return spawnX;
+	}
+
+	public int getSpawnY() {
+		return spawnY;
 	}
 
 	public void setBackgroundEnabled(boolean backgroundEnabled) {
