@@ -3,7 +3,7 @@ package link.corrupted.platformer.levels;
 import link.corrupted.platformer.resources.Resources;
 import org.newdawn.slick.Image;
 
-public class Level {
+public class Level implements ILevel {
 
 	private String name;
 	private String jsonName;
@@ -24,6 +24,7 @@ public class Level {
 		this.background = background;
 	}
 
+	@Override
 	public void init() {
 		loader = new LevelLoader(Resources.ResourceFolders.LEVELS + "/" + jsonName + ".json");
 		height = loader.getHeight();
@@ -33,18 +34,17 @@ public class Level {
 		backgroundImage = Resources.getImage(background);
 	}
 
+	@Override
 	public void render() {
-
-
 		for(int x = 0; x < backgroundImage.getWidth() / width; x++) {
 			for(int y = 0; y < backgroundImage.getHeight() / height; y++) {
 				backgroundImage.draw(x * backgroundImage.getWidth(), y * backgroundImage.getHeight(), backgroundImage.getWidth(), backgroundImage.getHeight());
 			}
 		}
 		loader.render(0, 0);
-
 	}
 
+	@Override
 	public void update() {
 
 	}

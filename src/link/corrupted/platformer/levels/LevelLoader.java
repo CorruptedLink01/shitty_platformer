@@ -30,7 +30,6 @@ public class LevelLoader {
 	private int spawnX = 0;
 	private int spawnY = 0;
 
-
 	public LevelLoader(String path) {
 		try {
 			loadLevel(path);
@@ -40,7 +39,6 @@ public class LevelLoader {
 	}
 
 	public void render(float xRender, float yRender) {
-
 		int offset = 2;
 		int xStart = (int)(xRender / RENDER_SIZE) - offset;
 		int yStart = (int)(yRender / RENDER_SIZE) - offset;
@@ -63,6 +61,7 @@ public class LevelLoader {
 
 	}
 
+	//load the level from the json file
 	private void loadLevel(String path) throws FileNotFoundException {
 		Object obj = JsonParser.parseReader(new FileReader(path));
 		JsonObject jsonObj = (JsonObject)obj;
@@ -96,6 +95,7 @@ public class LevelLoader {
 
 	}
 
+	//parse the useful things from the objects array
 	private void parseObjectData(JsonArray arr) {
 		int offset = 2;
 		for(int i = 0; i < arr.size(); i++) {
@@ -109,9 +109,9 @@ public class LevelLoader {
 		}
 	}
 
+	//parse the sprite data from the json array
 	private Image[][] parseData(JsonArray arr) {
 		Image[][] layers = new Image[width][height];
-
 		JsonElement index;
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
@@ -125,7 +125,7 @@ public class LevelLoader {
 		return layers;
 	}
 
-
+	//get the Sprite from the spritesheet index
 	private Image getSprite(int index) {
 		if(index == 0) {
 			return null;

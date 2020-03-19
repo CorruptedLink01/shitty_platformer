@@ -6,7 +6,8 @@ public enum Actions {
 	DUCK,
 	FRONT,
 	HURT,
-	JUMP,
+	JUMP_RIGHT,
+	JUMP_LEFT,
 	STAND_RIGHT,
 	STAND_LEFT
 }

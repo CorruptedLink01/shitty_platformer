@@ -2,6 +2,11 @@ package link.corrupted.platformer.resources;
 
 public class Sprites {
 
+	/**
+	 * Don't ask, just don't
+	 * I don't wanna talk about it
+	 */
+
 	public enum Player1Sprites implements ISpriteEnum {
 		WALK1(0, 0),
 		WALK2(1, 0),
@@ -203,9 +208,6 @@ public class Sprites {
 		HILL_SMALL_BOTTOM(12, 3),
 		HILL_LARGE_TOP(12, 4),
 		HILL_LARGE_BOTTOM(12, 5);
-
-		//0 72 144 216 288 360 432 504 576 648 720 792 864 936
-		//0  1  2   3   4   5   6   7   8   9  10  11  12
 
 		private int x;
 		private int y;
