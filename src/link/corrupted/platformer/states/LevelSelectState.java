@@ -23,7 +23,7 @@ public class LevelSelectState extends LinksGameState {
 
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-		graphics.drawString("LEVEL SELECT", Window.WIDTH / 2, Window.HEIGHT / 2);
+		graphics.drawString("LEVEL SELECT", Window.WIDTH / 2 - 20, Window.HEIGHT / 2);
 	}
 
 	@Override

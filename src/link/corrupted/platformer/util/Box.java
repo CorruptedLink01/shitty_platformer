@@ -44,5 +44,4 @@ public class Box {
 	public boolean isCollidingWithBox(Box box) {
 		return box.getEndX() >= x && box.getEndY() >= y && getEndX() >= box.x && getEndY() >= box.y;
 	}
-
 }

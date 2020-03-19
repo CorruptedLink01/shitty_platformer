@@ -1,43 +1,107 @@
 package link.corrupted.platformer.entites;
 
-import link.corrupted.platformer.levels.LevelLoader;
 import link.corrupted.platformer.resources.Resources;
 import link.corrupted.platformer.resources.Sprites.Player1Sprites;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+
+import static org.newdawn.slick.Input.*;
 
 public class Player extends Entity {
 
 	private final int MAX_SPEED = 50;
+	private float speed = 0.3F;
 	private int playerId;
+	private int jumpHeight = 250;
 
 	public Player(int playerId, int x, int y) {
 		this.playerId = playerId;
+		setScaledVariables(getFirstSprite(), x, y);
 		init();
-		//fixme
-		this.x = (x * LevelLoader.SCALE) - width;
-		this.y = (y * LevelLoader.SCALE) - height;
 	}
 
 	@Override
 	public void init() {
-		width = getFirstSprite().getWidth() * LevelLoader.SCALE;
-		height = getFirstSprite().getHeight() * LevelLoader.SCALE;
 		setAction(Actions.WALKING);
 	}
 
-	int speed = 0;
+	int updateIndex = 0;
+	int jumpIndex = 0;
+	boolean jumpKeyWasPressed = false;
 	@Override
 	public void update(GameContainer gameContainer, int delta) {
 
-		System.out.println(delta);
+		Input input = gameContainer.getInput();
 
-		if(speed >= MAX_SPEED) {
-			image = getSprite();
-			speed = 0;
-			//x += 10 + delta;
+		move(input, delta);
+		jump(input);
+
+		if(jumpKeyWasPressed) {
+			if(jumpIndex >= jumpHeight) {
+				jumpIndex = 0;
+				jumpKeyWasPressed = false;
+				applyGravity = true;
+			}else {
+				y -= 0.4F * delta;
+				jumpIndex += delta;
+			}
 		}
-		speed+=delta;
+
+
+		if(updateIndex >= 40) {
+			image = getSprite();
+			updateIndex = 0;
+		}
+		updateIndex+=delta;
+
+		if(lastAction == Actions.WALKING_BACK) {
+			setAction(Actions.STAND_LEFT);
+		}else if(lastAction != Actions.STAND_LEFT){
+			setAction(Actions.STAND_RIGHT);
+		}
+
+		checkCollision(delta);
+	}
+
+	private void move(Input input, int delta) {
+		if(input.isKeyDown(KEY_A) || input.isKeyDown(KEY_LEFT)) {
+			x -= speed * delta;
+			setAction(Actions.WALKING_BACK);
+		}else if(input.isKeyDown(KEY_D) || input.isKeyDown(KEY_RIGHT)) {
+			x += speed * delta;
+			setAction(Actions.WALKING);
+		}
+	}
+
+	boolean hasJumped = false;
+	private void jump(Input input) {
+		if(isCollidingDown()) {
+			hasJumped = false;
+		}
+		if(!hasJumped) {
+			if(input.isKeyPressed(KEY_SPACE) || input.isKeyPressed(KEY_W)) {
+				setAction(Actions.JUMP);
+				jumpKeyWasPressed = true;
+				applyGravity = false;
+				hasJumped = true;
+			}
+		}
+	}
+
+	private void checkCollision(int delta) {
+		if(isCollidingLeft()) {
+			x += speed * delta;
+		}
+		if(isCollidingRight()) {
+			x -= speed * delta;
+		}
+		if(isCollidingUp()) {
+			y += speed * delta;
+		}
+		if(isCollidingDown()) {
+			y -= speed * delta;
+		}
 	}
 
 	private Image getSprite() {
@@ -52,6 +116,8 @@ public class Player extends Entity {
 		switch(getAction()) {
 			case WALKING:
 				return getPlayer1WalkingSprite();
+			case WALKING_BACK:
+				return getPlayer1WalkingSprite().getFlippedCopy(true, false);
 			case DUCK:
 				return Resources.getPlayer1Sprite(Player1Sprites.DUCK);
 			case HURT:
@@ -60,7 +126,9 @@ public class Player extends Entity {
 				return Resources.getPlayer1Sprite(Player1Sprites.JUMP);
 			case FRONT:
 				return Resources.getPlayer1Sprite(Player1Sprites.FRONT);
-			case STAND:
+			case STAND_LEFT:
+				return Resources.getPlayer1Sprite(Player1Sprites.STAND).getFlippedCopy(true, false);
+			case STAND_RIGHT:
 			default:
 				return Resources.getPlayer1Sprite(Player1Sprites.STAND);
 		}
@@ -124,5 +192,21 @@ public class Player extends Entity {
 			image = Resources.getPlayer1Sprite(Player1Sprites.STAND);
 		}
 		return image;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	public int getJumpHeight() {
+		return jumpHeight;
+	}
+
+	public void setJumpHeight(int jumpHeight) {
+		this.jumpHeight = jumpHeight;
 	}
 }

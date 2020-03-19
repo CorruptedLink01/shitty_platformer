@@ -3,7 +3,6 @@ package link.corrupted.platformer.states;
 import link.corrupted.platformer.entites.Entity;
 import link.corrupted.platformer.entites.Player;
 import link.corrupted.platformer.levels.Level;
-import link.corrupted.platformer.levels.LevelLoader;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -25,9 +24,6 @@ public class LevelState extends LinksGameState {
 
 		entities.add(new Player(1, level.getSpawnX(), level.getSpawnY()));
 
-		for(Entity e : entities) {
-			e.setScale(LevelLoader.SCALE);
-		}
 
 	}
 
@@ -45,13 +41,18 @@ public class LevelState extends LinksGameState {
 			e.render(gameContainer, graphics);
 		}
 
+		graphics.setColor(Color.black);
 		graphics.drawString(level.getName(), 100, 100);
+
 	}
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
 		level.update();
 		for(Entity e : entities) {
+			if(e.applyGravity) {
+				e.applyGravity(delta);
+			}
 			e.update(gameContainer, delta);
 		}
 

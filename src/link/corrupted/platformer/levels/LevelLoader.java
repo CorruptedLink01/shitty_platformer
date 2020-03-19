@@ -13,16 +13,16 @@ import static link.corrupted.platformer.resources.Resources.TILE_SIZE;
 
 public class LevelLoader {
 
-	public static final int RENDER_SIZE = (int)(TILE_SIZE / 1.3F);
-	public static final float SCALE = TILE_SIZE / RENDER_SIZE;
+	public static final int RENDER_SIZE = (int)(TILE_SIZE * 0.7F);
+	public static final float SCALE = (float)TILE_SIZE / (float)RENDER_SIZE;
 
-	private Image[][] background;
-	private Image[][] solids;
-	private Image[][] foreground;
+	private static Image[][] background;
+	private static Image[][] solids;
+	private static Image[][] foreground;
 
-	private int height;
-	private int width;
-	
+	private static int height;
+	private static int width;
+
 	private boolean isBackgroundEnabled = true;
 	private boolean isSolidEnabled = true;
 	private boolean isForegroundEnabled = true;
@@ -143,19 +143,31 @@ public class LevelLoader {
 		return Resources.getTileSprite(x, y);
 	}
 
-	private boolean inBounds(int x, int y) {
+	private static boolean inBounds(int x, int y) {
 		return (x >= 0 && y >= 0 && x < width && y < height);
 	}
 
-	private boolean isTileBackground(int x, int y) {
+	public static boolean isColliding(float x, float y) {
+		int xPoint = (int)((x / SCALE) % TILE_SIZE);
+		int yPoint = (int)((y / SCALE) % TILE_SIZE);
+		int xTile = (int)(x / RENDER_SIZE);
+		int yTile = (int)(y / RENDER_SIZE);
+
+		if(isTileSolid(xTile, yTile)) {
+			return solids[xTile][yTile].getColor(xPoint, yPoint).getAlpha() > 0;
+		}
+		return false;
+	}
+
+	private static boolean isTileBackground(int x, int y) {
 		return (inBounds(x, y) && background[x][y] != null);
 	}
 
-	private boolean isTileSolid(int x, int y) {
+	private static boolean isTileSolid(int x, int y) {
 		return (inBounds(x, y) && solids[x][y] != null);
 	}
 
-	private boolean isTileForeground(int x, int y) {
+	private static boolean isTileForeground(int x, int y) {
 		return (inBounds(x, y) && foreground[x][y] != null);
 	}
 
