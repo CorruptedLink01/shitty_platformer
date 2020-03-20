@@ -2,7 +2,7 @@
   <artifact type="jar" name="cc_games:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/cc_games_jar</output-path>
     <root id="archive" name="cc_games.jar">
-      <element id="module-output" name="cc_games" />
+      <element id="module-output" name="shitty_platfromer" />
       <element id="library" level="project" name="native" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jogg-0.0.7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jnlp.jar" path-in-jar="/" />
