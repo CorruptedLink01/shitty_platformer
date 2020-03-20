@@ -22,7 +22,7 @@ public class Engine extends StateBasedGame {
 
 		//TODO make these ingame options
 		gameContainer.setShowFPS(false);
-//		gameContainer.setVSync(true);
+		gameContainer.setVSync(true);
 
 		new Resources();
 

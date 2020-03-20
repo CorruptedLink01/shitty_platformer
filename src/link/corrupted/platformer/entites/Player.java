@@ -11,7 +11,7 @@ import static org.newdawn.slick.Input.*;
 public class Player extends Entity {
 
 	private final int MAX_SPEED = 50;
-	private float speed = 0.3F;
+	private float speed = 0.4F;
 	private int playerId;
 	private int jumpHeight = 250;
 
@@ -34,6 +34,7 @@ public class Player extends Entity {
 	public void update(GameContainer gameContainer, int delta) {
 		Input input = gameContainer.getInput();
 		movements(input, delta);
+
 
 		if(updateIndex >= 40) {
 			image = getSprite();

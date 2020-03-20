@@ -32,7 +32,7 @@ public class OptionsState extends LinksGameState {
 		//			Resources.getSmallTileSprite(s).getScaledCopy(scale).draw((5 * scale) * s.getX(), 300 +(24 * scale) * s.getY());
 		//		}
 
-		Levels.LEVEL1.render();
+		Levels.LEVEL1.render(600, 600);
 
 	}
 

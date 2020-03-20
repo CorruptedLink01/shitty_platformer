@@ -2,7 +2,7 @@ package link.corrupted.platformer.states;
 
 import link.corrupted.platformer.entites.Entity;
 import link.corrupted.platformer.entites.Player;
-import link.corrupted.platformer.levels.ILevel;
+import link.corrupted.platformer.levels.AbstractLevel;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -12,7 +12,8 @@ public class LevelState extends LinksGameState {
 
 	private ArrayList<Entity> entities;
 
-	private static ILevel level;
+	private static AbstractLevel level;
+	private static Entity player;
 
 	public LevelState() {
 		super(States.LEVEL);
@@ -20,9 +21,10 @@ public class LevelState extends LinksGameState {
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
+		player = new Player(1, level.getSpawnX(), level.getSpawnY());
 		entities = new ArrayList<>();
 
-		entities.add(new Player(1, level.getSpawnX(), level.getSpawnY()));
+		entities.add(player);
 
 	}
 
@@ -34,7 +36,11 @@ public class LevelState extends LinksGameState {
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
-		level.render();
+		//TODO to translate
+		float translateX = (level.getSpawnX() - player.x) * ((Player)player).getSpeed();
+//		graphics.translate(translateX, 0);
+		graphics.translate(level.getSpawnX() - player.x, 0);
+		level.render(player.x, player.y);
 
 		for(Entity e : entities) {
 			e.render();
@@ -42,6 +48,8 @@ public class LevelState extends LinksGameState {
 
 		graphics.setColor(Color.black);
 		graphics.drawString(level.getName(), 100, 100);
+
+		graphics.resetTransform();
 
 	}
 
@@ -60,11 +68,11 @@ public class LevelState extends LinksGameState {
 		}
 	}
 
-	public static void setLevel(ILevel level) {
+	public static void setLevel(AbstractLevel level) {
 		LevelState.level = level;
 	}
 
-	public static ILevel getLevel() {
+	public static AbstractLevel getLevel() {
 		return level;
 	}
 }

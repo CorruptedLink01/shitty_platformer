@@ -10,8 +10,8 @@ public class Main {
 		try {
 			AppGameContainer container = new AppGameContainer(new Engine("Platformer"));
 			container.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
-			container.setIcon("resources/tiles/box.png");
 			container.start();
+			container.setIcon("resources/tiles/box.png");
 		}catch(SlickException e) {
 			e.printStackTrace();
 		}

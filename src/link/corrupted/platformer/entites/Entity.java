@@ -50,19 +50,19 @@ public abstract class Entity extends Box {
 
 	//region collision detection
 	public boolean isCollidingLeft() {
-		return LevelLoader.isColliding(x, getEndY());
+		return LevelLoader.isColliding(x - 1, getEndY());
 	}
 
 	public boolean isCollidingRight() {
-		return LevelLoader.isColliding(getEndX(), getEndY());
+		return LevelLoader.isColliding(getEndX() + 1, getEndY());
 	}
 
 	public boolean isCollidingUp() {
-		return LevelLoader.isColliding(getCenterX(), y);
+		return LevelLoader.isColliding(getCenterX(), y - 1);
 	}
 
 	public boolean isCollidingDown() {
-		return LevelLoader.isColliding(getCenterX(), getEndY());
+		return LevelLoader.isColliding(getCenterX(), getEndY() + 1);
 	}
 
 	//detect if entity would collide after being affected by gravity
