@@ -1,5 +1,6 @@
 package link.corrupted.platformer.states;
 
+import link.corrupted.platformer.levels.AbstractLevel;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -29,18 +30,19 @@ public class LevelSelectState extends LinksGameState {
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 		if(gameContainer.getInput().isKeyPressed(KEY_1)) {
-			LevelState.setLevel(LEVEL1);
-			enterLevel(stateBasedGame);
-			LevelState.getLevel().init();
+			enterLevel(LEVEL1, stateBasedGame);
 		}
 		if(gameContainer.getInput().isKeyPressed(KEY_2)) {
-			LevelState.setLevel(LEVEL2);
-			enterLevel(stateBasedGame);
-			LevelState.getLevel().init();
+			enterLevel(LEVEL2, stateBasedGame);
+		}
+		if(gameContainer.getInput().isKeyPressed(KEY_T)) {
+			enterLevel(TEST_LEVEL, stateBasedGame);
 		}
 	}
 
-	private void enterLevel(StateBasedGame stateBasedGame) {
+	private void enterLevel(AbstractLevel level, StateBasedGame stateBasedGame) {
+		LevelState.setLevel(level);
 		stateBasedGame.enterState(LEVEL.getId());
+		LevelState.getLevel().init();
 	}
 }

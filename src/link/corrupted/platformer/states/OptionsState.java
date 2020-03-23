@@ -7,6 +7,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+//TODO make the options menu
 public class OptionsState extends LinksGameState {
 
 	private StateBasedGame game;

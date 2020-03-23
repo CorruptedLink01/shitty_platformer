@@ -6,6 +6,7 @@ import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
+//TODO make the main menu
 public class MainMenuState extends LinksGameState {
 
 	private String[] options = new String[]{"Start", "Options"};

@@ -109,9 +109,11 @@ public class Player extends Entity {
 
 	private void checkCollision(int delta) {
 		if(isCollidingLeft()) {
+			System.out.println("Collide Left");
 			x += speed * delta;
 		}
 		if(isCollidingRight()) {
+			System.out.println("Collide Right");
 			x -= speed * delta;
 		}
 		if(isCollidingUp()) {

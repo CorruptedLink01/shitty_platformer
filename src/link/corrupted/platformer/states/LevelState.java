@@ -21,11 +21,9 @@ public class LevelState extends LinksGameState {
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
-		player = new Player(1, level.getSpawnX(), level.getSpawnY());
-		entities = new ArrayList<>();
-
-		entities.add(player);
-
+		level.enter();
+		entities = level.getEntities();
+		player = entities.get(0);
 	}
 
 	@Override

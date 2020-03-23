@@ -71,9 +71,7 @@ public class LevelLoader {
 
 		JsonArray layers = (JsonArray)jsonObj.get("layers");
 
-		int amount = layers.size();
-
-		for(int i = 0; i < amount; i++) {
+		for(int i = 0; i < layers.size(); i++) {
 			JsonObject layer = (JsonObject)layers.get(i);
 			String type = layer.get("name").getAsString();
 
@@ -90,9 +88,7 @@ public class LevelLoader {
 				case "objects":
 					parseObjectData(layer.getAsJsonArray("objects"));
 			}
-
 		}
-
 	}
 
 	//parse the useful things from the objects array
@@ -148,8 +144,8 @@ public class LevelLoader {
 	}
 
 	public static boolean isColliding(float x, float y) {
-		int xPoint = (int)((x / SCALE) % TILE_SIZE);
-		int yPoint = (int)((y / SCALE) % TILE_SIZE);
+		int xPoint = (int)((x % SCALE) / TILE_SIZE);
+		int yPoint = (int)((y % SCALE) / TILE_SIZE);
 		int xTile = (int)(x / RENDER_SIZE);
 		int yTile = (int)(y / RENDER_SIZE);
 

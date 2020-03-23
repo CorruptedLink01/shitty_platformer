@@ -1,8 +1,12 @@
 package link.corrupted.platformer.levels;
 
+import link.corrupted.platformer.entites.Entity;
+import link.corrupted.platformer.entites.Player;
 import link.corrupted.platformer.resources.Resources;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.Image;
+
+import java.util.ArrayList;
 
 public abstract class AbstractLevel {
 
@@ -10,11 +14,14 @@ public abstract class AbstractLevel {
 	private String jsonName;
 	private String background;
 	private Image backgroundImage;
+	private ArrayList<Entity> entities = new ArrayList<>();
 
 	private int spawnX;
 	private int spawnY;
 	private int height;
 	private int width;
+
+	private Entity player;
 
 	private LevelLoader loader;
 
@@ -22,6 +29,11 @@ public abstract class AbstractLevel {
 		this.name = name;
 		this.jsonName = jsonName;
 		this.background = background;
+	}
+
+	public void enter() {
+		player = new Player(1, getSpawnX(), getSpawnY());
+		entities.add(player);
 	}
 
 	public void init() {
@@ -62,5 +74,9 @@ public abstract class AbstractLevel {
 
 	public int getWidth() {
 		return width;
+	}
+
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 }

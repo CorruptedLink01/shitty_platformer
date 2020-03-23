@@ -5,6 +5,7 @@ import link.corrupted.platformer.util.Box;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 
+import static link.corrupted.platformer.levels.LevelLoader.RENDER_SIZE;
 import static link.corrupted.platformer.levels.LevelLoader.SCALE;
 
 public abstract class Entity extends Box {
@@ -48,13 +49,14 @@ public abstract class Entity extends Box {
 		this.y = y / SCALE - height - 10;
 	}
 
+	//TODO make slopes work
 	//region collision detection
 	public boolean isCollidingLeft() {
-		return LevelLoader.isColliding(x - 1, getEndY());
+		return LevelLoader.isColliding(x + RENDER_SIZE / 2, getEndY());
 	}
 
 	public boolean isCollidingRight() {
-		return LevelLoader.isColliding(getEndX() + 1, getEndY());
+		return LevelLoader.isColliding(getEndX() + RENDER_SIZE / 2, getEndY());
 	}
 
 	public boolean isCollidingUp() {
