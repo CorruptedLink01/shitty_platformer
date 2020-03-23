@@ -41,6 +41,7 @@ public class LevelSelectState extends LinksGameState {
 	}
 
 	private void enterLevel(AbstractLevel level, StateBasedGame stateBasedGame) {
+		level.reset();
 		LevelState.setLevel(level);
 		stateBasedGame.enterState(LEVEL.getId());
 		LevelState.getLevel().init();

@@ -43,6 +43,7 @@ public abstract class AbstractLevel {
 		spawnX = loader.getSpawnX();
 		spawnY = loader.getSpawnY();
 		backgroundImage = Resources.getImage(background);
+		entities.addAll(loader.getEntities());
 	}
 
 	public void render(float playerX, float playerY) {
@@ -52,6 +53,15 @@ public abstract class AbstractLevel {
 			}
 		}
 		loader.render(playerX - Window.WIDTH, playerY - Window.HEIGHT / 2);
+	}
+
+	public void reset() {
+		loader = null;
+		height = 0;
+		width = 0;
+		spawnX = 0;
+		spawnY = 0;
+		entities.clear();
 	}
 
 	public abstract void update();

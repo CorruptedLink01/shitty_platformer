@@ -107,6 +107,8 @@ public class Player extends Entity {
 		setAction(Actions.WALKING);
 	}
 
+
+	//TODO fix being pushed of the edges
 	private void checkCollision(int delta) {
 		if(isCollidingLeft()) {
 			System.out.println("Collide Left");

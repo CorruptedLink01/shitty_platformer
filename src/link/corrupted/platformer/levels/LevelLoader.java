@@ -1,6 +1,8 @@
 package link.corrupted.platformer.levels;
 
 import com.google.gson.*;
+import link.corrupted.platformer.entites.Entity;
+import link.corrupted.platformer.entites.Mob;
 import link.corrupted.platformer.resources.Resources;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.Image;
@@ -8,6 +10,7 @@ import org.newdawn.slick.SpriteSheet;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 import static link.corrupted.platformer.resources.Resources.TILE_SIZE;
 
@@ -29,6 +32,8 @@ public class LevelLoader {
 
 	private int spawnX = 0;
 	private int spawnY = 0;
+
+	private ArrayList<Entity> entities = new ArrayList<>();
 
 	public LevelLoader(String path) {
 		try {
@@ -96,11 +101,14 @@ public class LevelLoader {
 		int offset = 2;
 		for(int i = 0; i < arr.size(); i++) {
 			JsonObject object = (JsonObject)arr.get(i);
-			String type = object.get("name").getAsString();
+			String type = object.get("type").getAsString();
 
 			if(type.equals("spawn")) {
 				spawnX = object.get("x").getAsInt() - offset;
 				spawnY = object.get("y").getAsInt() - offset;
+				spawnY += 10;
+			}else if(type.equals("entity")) {
+				entities.add(new Mob(object.get("x").getAsInt() - offset, object.get("y").getAsInt() - offset));
 			}
 		}
 	}
@@ -150,6 +158,7 @@ public class LevelLoader {
 		int yTile = (int)(y / RENDER_SIZE);
 
 		if(isTileSolid(xTile, yTile)) {
+			System.out.println(solids[xTile][yTile].getColor(xPoint, yPoint).getAlpha());
 			return solids[xTile][yTile].getColor(xPoint, yPoint).getAlpha() > 0;
 		}
 		return false;
@@ -193,6 +202,10 @@ public class LevelLoader {
 
 	public int getSpawnY() {
 		return spawnY;
+	}
+
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 
 	public void setBackgroundEnabled(boolean backgroundEnabled) {

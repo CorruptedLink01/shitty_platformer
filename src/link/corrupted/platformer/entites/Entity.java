@@ -32,11 +32,18 @@ public abstract class Entity extends Box {
 		return 0.5F * delta;
 	}
 
+	public float getSmallGravity(int delta) {
+		return 0.17F * delta;
+	}
+
 	//applyGravity to the entity
 	public void applyGravity(int delta) {
 		float gravity = getGravity(delta);
+		float smallGravity = getSmallGravity(delta);
 		if(!isGravityColliding(gravity) && applyGravity) {
 			y += gravity;
+		}else if(!isGravityColliding(smallGravity) && applyGravity) {
+			y += smallGravity;
 		}
 	}
 

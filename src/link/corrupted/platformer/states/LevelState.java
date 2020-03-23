@@ -23,7 +23,8 @@ public class LevelState extends LinksGameState {
 	public void enter(GameContainer container, StateBasedGame game) {
 		level.enter();
 		entities = level.getEntities();
-		player = entities.get(0);
+		player = entities.get(entities.size() - 1);
+		System.out.println(player);
 	}
 
 	@Override
