@@ -1,9 +1,14 @@
 package link.corrupted.platformer.levels;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import link.corrupted.platformer.entites.Entity;
 import link.corrupted.platformer.entites.Mob;
+import link.corrupted.platformer.entites.Slime;
 import link.corrupted.platformer.resources.Resources;
+import link.corrupted.platformer.util.Box;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
@@ -32,6 +37,8 @@ public class LevelLoader {
 
 	private int spawnX = 0;
 	private int spawnY = 0;
+
+	private Box deathPlane;
 
 	private ArrayList<Entity> entities = new ArrayList<>();
 
@@ -63,7 +70,6 @@ public class LevelLoader {
 				}
 			}
 		}
-
 	}
 
 	//load the level from the json file
@@ -102,13 +108,24 @@ public class LevelLoader {
 		for(int i = 0; i < arr.size(); i++) {
 			JsonObject object = (JsonObject)arr.get(i);
 			String type = object.get("type").getAsString();
+			String name = object.get("name").getAsString();
+			int x = object.get("x").getAsInt() - offset;
+			int y = object.get("y").getAsInt() - offset;
 
 			if(type.equals("spawn")) {
-				spawnX = object.get("x").getAsInt() - offset;
-				spawnY = object.get("y").getAsInt() - offset;
-				spawnY += 10;
+				spawnX = x;
+				spawnY = y;
+				spawnY -= 10;
 			}else if(type.equals("entity")) {
-				entities.add(new Mob(object.get("x").getAsInt() - offset, object.get("y").getAsInt() - offset));
+				if(name.equals("slime")) {
+					entities.add(new Slime(x, y));
+				}else {
+					entities.add(new Mob(x, y));
+				}
+			}else if(type.equals("util")) {
+				if(name.equals("death_plane")) {
+					deathPlane = new Box(x, y, object.get("width").getAsInt(), object.get("height").getAsInt());
+				}
 			}
 		}
 	}
@@ -158,7 +175,6 @@ public class LevelLoader {
 		int yTile = (int)(y / RENDER_SIZE);
 
 		if(isTileSolid(xTile, yTile)) {
-			System.out.println(solids[xTile][yTile].getColor(xPoint, yPoint).getAlpha());
 			return solids[xTile][yTile].getColor(xPoint, yPoint).getAlpha() > 0;
 		}
 		return false;
@@ -206,6 +222,10 @@ public class LevelLoader {
 
 	public ArrayList<Entity> getEntities() {
 		return entities;
+	}
+
+	public Box getDeathPlane() {
+		return deathPlane;
 	}
 
 	public void setBackgroundEnabled(boolean backgroundEnabled) {

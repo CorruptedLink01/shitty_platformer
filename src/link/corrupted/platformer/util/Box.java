@@ -1,6 +1,6 @@
 package link.corrupted.platformer.util;
 
-public abstract class Box {
+public class Box {
 
 	public float x;
 	public float y;

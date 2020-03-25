@@ -10,12 +10,13 @@ import static link.corrupted.platformer.levels.LevelLoader.SCALE;
 
 public abstract class Entity extends Box {
 
-	private Actions action;
-	protected Actions lastAction;
-
 	public Image image;
 
+	public boolean isAlive = true;
+
 	public boolean applyGravity = true;
+
+	public Player player;
 
 	public abstract void init();
 
@@ -27,9 +28,11 @@ public abstract class Entity extends Box {
 
 	public abstract void update(GameContainer gameContainer, int delta);
 
+	public abstract void onDeath();
+
 	//get the amount of Gravity the entity should be affected by
 	public float getGravity(int delta) {
-		return 0.5F * delta;
+		return 0.4F * delta;
 	}
 
 	public float getSmallGravity(int delta) {
@@ -80,13 +83,11 @@ public abstract class Entity extends Box {
 	}
 	//endregion
 
-	public Actions getAction() {
-		return action;
+	public boolean isAlive() {
+		return isAlive;
 	}
 
-	public void setAction(Actions action) {
-		this.action = action;
-		this.lastAction = action;
+	public void setAlive(boolean alive) {
+		isAlive = alive;
 	}
-
 }

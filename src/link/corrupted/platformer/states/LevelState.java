@@ -22,9 +22,16 @@ public class LevelState extends LinksGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
 		level.enter();
+		level.init();
 		entities = level.getEntities();
-		player = entities.get(entities.size() - 1);
-		System.out.println(player);
+		for(Entity e : entities) {
+			if(e instanceof Player) {
+				player = e;
+			}
+		}
+		for(Entity e : entities) {
+			e.player = (Player)player;
+		}
 	}
 
 	@Override
@@ -35,14 +42,13 @@ public class LevelState extends LinksGameState {
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
-		//TODO to translate
-		float translateX = (level.getSpawnX() - player.x) * ((Player)player).getSpeed();
-//		graphics.translate(translateX, 0);
 		graphics.translate(level.getSpawnX() - player.x, 0);
 		level.render(player.x, player.y);
 
 		for(Entity e : entities) {
-			e.render();
+			if(e.isAlive) {
+				e.render();
+			}
 		}
 
 		graphics.setColor(Color.black);
@@ -59,7 +65,18 @@ public class LevelState extends LinksGameState {
 			if(e.applyGravity) {
 				e.applyGravity(delta);
 			}
+
 			e.update(gameContainer, delta);
+
+			if(e.isCollidingWithBox(level.getDeathPlane())) {
+				e.isAlive = false;
+				e.applyGravity = false;
+			}
+
+			if(!e.isAlive) {
+				e.onDeath();
+				e.applyGravity = false;
+			}
 		}
 
 		if(gameContainer.getInput().isKeyPressed(Input.KEY_1)) {

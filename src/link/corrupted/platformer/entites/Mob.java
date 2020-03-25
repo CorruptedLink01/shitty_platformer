@@ -6,9 +6,6 @@ import org.newdawn.slick.GameContainer;
 
 public class Mob extends Entity {
 
-	private int x;
-	private int y;
-
 	public Mob(int x, int y) {
 		setScaledVariables(Resources.getTileSprite(Sprites.TileSprites.ROPE_ATTACHED), x, y);
 		init();
@@ -22,5 +19,11 @@ public class Mob extends Entity {
 	@Override
 	public void update(GameContainer gameContainer, int delta) {
 
+	}
+
+	@Override
+	public void onDeath() {
+		x = -1000;
+		y = -1000;
 	}
 }

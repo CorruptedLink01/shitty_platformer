@@ -1,11 +1,12 @@
 package link.corrupted.platformer.entites;
 
-public enum Actions {
-	WALKING,
-	WALKING_BACK,
+public enum PlayerActions {
+	WALKING_RIGHT,
+	WALKING_LEFT,
 	DUCK,
 	FRONT,
-	HURT,
+	HURT_RIGHT,
+	HURT_LEFT,
 	JUMP_RIGHT,
 	JUMP_LEFT,
 	STAND_RIGHT,

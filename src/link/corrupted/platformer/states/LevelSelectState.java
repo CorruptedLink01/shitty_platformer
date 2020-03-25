@@ -29,6 +29,9 @@ public class LevelSelectState extends LinksGameState {
 
 	@Override
 	public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+		if(gameContainer.getInput().isKeyPressed(KEY_ESCAPE)) {
+			stateBasedGame.enterState(MENU.getId());
+		}
 		if(gameContainer.getInput().isKeyPressed(KEY_1)) {
 			enterLevel(LEVEL1, stateBasedGame);
 		}

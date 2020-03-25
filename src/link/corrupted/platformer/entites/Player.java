@@ -10,12 +10,17 @@ import static org.newdawn.slick.Input.*;
 
 public class Player extends Entity {
 
-	private final int MAX_SPEED = 50;
+	private PlayerActions action;
+	protected PlayerActions lastAction;
+
+	private int health = 20;
 	private float speed = 0.4F;
 	private int playerId;
 	private int jumpHeight = 250;
 
 	int frameIndex = 0;
+	int maxImmunity = 120 * 10;
+	int immunityFrames = maxImmunity;
 
 	public Player(int playerId, int x, int y) {
 		this.playerId = playerId;
@@ -25,31 +30,46 @@ public class Player extends Entity {
 
 	@Override
 	public void init() {
-		setAction(Actions.WALKING);
+		setAction(PlayerActions.WALKING_RIGHT);
 	}
 
 	int updateIndex = 0;
-
 	@Override
 	public void update(GameContainer gameContainer, int delta) {
 		Input input = gameContainer.getInput();
-		movements(input, delta);
+		if(player.isAlive) {
+			movements(input, delta);
+			updateImmunityFrames(delta);
 
+			if(updateIndex >= 40) {
+				image = getSprite();
+				updateIndex = 0;
+			}
+			updateIndex += delta;
 
-		if(updateIndex >= 40) {
-			image = getSprite();
-			updateIndex = 0;
+			//reset Action
+			if(lastAction == PlayerActions.WALKING_LEFT || lastAction == PlayerActions.JUMP_LEFT) {
+				setAction(PlayerActions.STAND_LEFT);
+			}else if(lastAction != PlayerActions.STAND_LEFT) {
+				setAction(PlayerActions.STAND_RIGHT);
+			}
+
+			checkCollision(delta);
 		}
-		updateIndex += delta;
+	}
 
-		//reset Action
-		if(lastAction == Actions.WALKING_BACK || lastAction == Actions.JUMP_LEFT) {
-			setAction(Actions.STAND_LEFT);
-		}else if(lastAction != Actions.STAND_LEFT) {
-			setAction(Actions.STAND_RIGHT);
+	@Override
+	public void onDeath() {
+		//TODO add game over screen
+//		System.out.println("Player is dead");
+	}
+
+	private void updateImmunityFrames(int delta) {
+		if(immunityFrames >= maxImmunity) {
+			immunityFrames = maxImmunity;
+		}else {
+			immunityFrames += delta;
 		}
-
-		checkCollision(delta);
 	}
 
 	private void movements(Input input, int delta) {
@@ -81,10 +101,10 @@ public class Player extends Entity {
 	int jumpIndex = 0;
 	boolean hasJumped = false;
 	private void jump(int delta) {
-		if(lastAction == Actions.WALKING_BACK) {
-			setAction(Actions.JUMP_LEFT);
+		if(lastAction == PlayerActions.WALKING_LEFT) {
+			setAction(PlayerActions.JUMP_LEFT);
 		}else {
-			setAction(Actions.JUMP_RIGHT);
+			setAction(PlayerActions.JUMP_RIGHT);
 		}
 
 		if(jumpIndex >= jumpHeight) {
@@ -99,14 +119,13 @@ public class Player extends Entity {
 
 	private void moveBackward(int delta) {
 		x -= speed * delta;
-		setAction(Actions.WALKING_BACK);
+		setAction(PlayerActions.WALKING_LEFT);
 	}
 
 	private void moveForward(int delta) {
 		x += speed * delta;
-		setAction(Actions.WALKING);
+		setAction(PlayerActions.WALKING_RIGHT);
 	}
-
 
 	//TODO fix being pushed of the edges
 	private void checkCollision(int delta) {
@@ -121,9 +140,23 @@ public class Player extends Entity {
 		if(isCollidingUp()) {
 			System.out.println("Collide Up");
 			y += speed * delta;
-		}
+	}
 		if(isCollidingDown()) {
 			y -= speed * delta;
+		}
+	}
+
+
+	public void damagePlayer(int amount) {
+		if(immunityFrames == maxImmunity) {
+			health -= amount;
+			if(health <= 0) {
+				health = 0;
+				isAlive = false;
+				System.out.println("death");
+			}
+			immunityFrames = 0;
+			System.out.println("health = " + health);
 		}
 	}
 
@@ -137,15 +170,17 @@ public class Player extends Entity {
 
 	//Get the player sprite for the current Action
 	private Image getPlayer1Sprite() {
-		switch(getAction()) {
-			case WALKING:
+		switch(action) {
+			case WALKING_RIGHT:
 				return getPlayer1WalkingSprite();
-			case WALKING_BACK:
+			case WALKING_LEFT:
 				return getPlayer1WalkingSprite().getFlippedCopy(true, false);
 			case DUCK:
 				return Resources.getPlayer1Sprite(Player1Sprites.DUCK);
-			case HURT:
+			case HURT_RIGHT:
 				return Resources.getPlayer1Sprite(Player1Sprites.HURT);
+			case HURT_LEFT:
+				return Resources.getPlayer1Sprite(Player1Sprites.HURT).getFlippedCopy(true, false);
 			case JUMP_RIGHT:
 				return Resources.getPlayer1Sprite(Player1Sprites.JUMP);
 			case JUMP_LEFT:
@@ -235,5 +270,14 @@ public class Player extends Entity {
 
 	public void setJumpHeight(int jumpHeight) {
 		this.jumpHeight = jumpHeight;
+	}
+
+	public PlayerActions getAction() {
+		return action;
+	}
+
+	public void setAction(PlayerActions action) {
+		this.action = action;
+		this.lastAction = action;
 	}
 }

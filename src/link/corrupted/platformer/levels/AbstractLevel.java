@@ -3,6 +3,7 @@ package link.corrupted.platformer.levels;
 import link.corrupted.platformer.entites.Entity;
 import link.corrupted.platformer.entites.Player;
 import link.corrupted.platformer.resources.Resources;
+import link.corrupted.platformer.util.Box;
 import link.corrupted.platformer.util.Window;
 import org.newdawn.slick.Image;
 
@@ -24,6 +25,7 @@ public abstract class AbstractLevel {
 	private Entity player;
 
 	private LevelLoader loader;
+	private Box deathPlane;
 
 	public AbstractLevel(String name, String jsonName, String background) {
 		this.name = name;
@@ -42,6 +44,7 @@ public abstract class AbstractLevel {
 		width = loader.getWidth();
 		spawnX = loader.getSpawnX();
 		spawnY = loader.getSpawnY();
+		deathPlane = loader.getDeathPlane();
 		backgroundImage = Resources.getImage(background);
 		entities.addAll(loader.getEntities());
 	}
@@ -66,6 +69,10 @@ public abstract class AbstractLevel {
 
 	public abstract void update();
 
+	public LevelLoader getLoader() {
+		return loader;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -88,5 +95,9 @@ public abstract class AbstractLevel {
 
 	public ArrayList<Entity> getEntities() {
 		return entities;
+	}
+
+	public Box getDeathPlane() {
+		return deathPlane;
 	}
 }

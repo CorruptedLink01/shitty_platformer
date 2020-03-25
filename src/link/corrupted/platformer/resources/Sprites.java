@@ -45,6 +45,34 @@ public class Sprites {
 
 	}
 
+	public enum EnemySprites {
+		BLOCKER_BODY("blockerBody"),
+		BLOCKER_MAD("blockerMad"),
+		BLOCKER_SAD("blockerSad"),
+		FISH_DEAD("fishDead"),
+		FISH_SWIM1("fishSwim1"),
+		FISH_SWIM2("fishSwim2"),
+		FLY_DEAD("flyDead"),
+		FLY_FLY1("flyFly1"),
+		FLY_FLY2("flyFly2"),
+		POKER_MAD("pokerMad"),
+		POKER_SAD("pokerSad"),
+		SLIME_DEAD("slimeDead"),
+		SLIME_WALK1("slimeWalk1"),
+		SLIME_WALK2("slimeWalk2"),
+		;
+
+		private String name;
+
+		EnemySprites(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
 
 	public enum TileSprites implements ISpriteEnum {
 		BOX_ITEM_ALT(0, 0),
