@@ -50,6 +50,7 @@ public class LevelLoader {
 		}
 	}
 
+	//render the layers of the level
 	public void render(float xRender, float yRender) {
 		int offset = 2;
 		int xStart = (int)(xRender / RENDER_SIZE) - offset;
@@ -112,20 +113,24 @@ public class LevelLoader {
 			int x = object.get("x").getAsInt() - offset;
 			int y = object.get("y").getAsInt() - offset;
 
-			if(type.equals("spawn")) {
-				spawnX = x;
-				spawnY = y;
-				spawnY -= 10;
-			}else if(type.equals("entity")) {
-				if(name.equals("slime")) {
-					entities.add(new Slime(x, y));
-				}else {
-					entities.add(new Mob(x, y));
-				}
-			}else if(type.equals("util")) {
-				if(name.equals("death_plane")) {
-					deathPlane = new Box(x, y, object.get("width").getAsInt(), object.get("height").getAsInt());
-				}
+			switch(type) {
+				case "spawn":
+					spawnX = x;
+					spawnY = y;
+					spawnY -= 10;
+					break;
+				case "entity":
+					if(name.equals("slime")) {
+						entities.add(new Slime(x, y));
+					}else {
+						entities.add(new Mob(x, y));
+					}
+					break;
+				case "util":
+					if(name.equals("death_plane")) {
+						deathPlane = new Box(x, y, object.get("width").getAsInt(), object.get("height").getAsInt());
+					}
+					break;
 			}
 		}
 	}

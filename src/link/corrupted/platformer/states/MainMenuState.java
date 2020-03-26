@@ -18,8 +18,6 @@ public class MainMenuState extends LinksGameState implements ComponentListener {
 
 	private StateBasedGame game;
 
-	private float scale = 1.5F;
-
 	public MainMenuState() {
 		super(States.MENU);
 	}
@@ -51,6 +49,7 @@ public class MainMenuState extends LinksGameState implements ComponentListener {
 		optionButton.render(gameContainer, graphics);
 		exitButton.render(gameContainer, graphics);
 
+		float scale = 1.5F;
 		graphics.scale(scale, scale);
 		gameContainer.getDefaultFont().drawString(startButton.getX() / scale + ((startButton.getWidth() / 4F) / scale), startButton.getY() / scale + (startButton.getHeight() / 3.5F) / scale, "Start Game", Color.black);
 		gameContainer.getDefaultFont().drawString(optionButton.getX() / scale + ((optionButton.getWidth() / 3F) / scale), optionButton.getY() / scale + (optionButton.getHeight() / 3.5F) / scale, "Options", Color.black);
