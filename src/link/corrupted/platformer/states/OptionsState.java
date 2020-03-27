@@ -14,11 +14,15 @@ public class OptionsState extends LinksGameState implements ComponentListener {
 	private AppGameContainer container;
 	private StateBasedGame game;
 
+	private MouseOverArea resolutionButton;
 	private MouseOverArea vSyncButton;
 	private MouseOverArea fullscreenButton;
 
 	private boolean vSync = true;
 	private boolean fullscreen = false;
+	private int resolutionIndex = 1;
+
+	private int[][] resolutions = {{720, 480}, {1280, 720}, {1920, 1080}};
 
 	public OptionsState() {
 		super(States.OPTION);
@@ -30,7 +34,11 @@ public class OptionsState extends LinksGameState implements ComponentListener {
 		this.container = (AppGameContainer)gameContainer;
 
 		Image buttonImage = Resources.getImage("button1").getScaledCopy(1.3F);
-		vSyncButton = new MouseOverArea(gameContainer, buttonImage, Window.WIDTH / 2 - buttonImage.getWidth() / 2, Window.HEIGHT / 2, buttonImage.getWidth(), buttonImage.getHeight(), this);
+		resolutionButton = new MouseOverArea(gameContainer, buttonImage, Window.WIDTH / 2 - buttonImage.getWidth() / 2, Window.HEIGHT / 2, buttonImage.getWidth(), buttonImage.getHeight(), this);
+		resolutionButton.setNormalColor(new Color(1, 1, 1, 0.8f));
+		resolutionButton.setMouseOverColor(new Color(1, 1, 1, 0.9f));
+
+		vSyncButton = new MouseOverArea(gameContainer, buttonImage, Window.WIDTH / 2 - buttonImage.getWidth() / 2, resolutionButton.getY() + buttonImage.getHeight() + 20, buttonImage.getWidth(), buttonImage.getHeight(), this);
 		vSyncButton.setNormalColor(new Color(1, 1, 1, 0.8f));
 		vSyncButton.setMouseOverColor(new Color(1, 1, 1, 0.9f));
 
@@ -42,11 +50,22 @@ public class OptionsState extends LinksGameState implements ComponentListener {
 	@Override
 	public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 		graphics.setBackground(Color.cyan);
+		resolutionButton.render(gameContainer, graphics);
 		vSyncButton.render(gameContainer, graphics);
 		fullscreenButton.render(gameContainer, graphics);
 
-		graphics.drawString("Vsync: " + gameContainer.isVSyncRequested(), 0, 0);
-		graphics.drawString("Vsync: " + vSync, 0, 20);
+		float scale = 1.5F;
+		graphics.scale(scale, scale);
+
+		String resolutionString = Window.WIDTH + " x " + Window.HEIGHT;
+		String vSyncString = vSync ? "Vsync: on" : "Vsync: off";
+		String fullscreenString = fullscreen ? "Windowed" : "Fullscreen";
+
+		gameContainer.getDefaultFont().drawString(resolutionButton.getX() / scale + ((resolutionButton.getWidth() / 4F) / scale), resolutionButton.getY() / scale + (resolutionButton.getHeight() / 3.5F) / scale, resolutionString, Color.black);
+		gameContainer.getDefaultFont().drawString(vSyncButton.getX() / scale + ((vSyncButton.getWidth() / 4F) / scale), vSyncButton.getY() / scale + (vSyncButton.getHeight() / 3.5F) / scale, vSyncString, Color.black);
+		gameContainer.getDefaultFont().drawString(fullscreenButton.getX() / scale + ((fullscreenButton.getWidth() / 4F) / scale), fullscreenButton.getY() / scale + (fullscreenButton.getHeight() / 3.5F) / scale, fullscreenString, Color.black);
+
+		graphics.resetTransform();
 	}
 
 	@Override
@@ -70,5 +89,22 @@ public class OptionsState extends LinksGameState implements ComponentListener {
 			}
 		}
 
+		if(abstractComponent == resolutionButton) {
+			resolutionIndex++;
+			if(resolutionIndex >= resolutions.length) {
+				resolutionIndex = 0;
+			}
+			int width = resolutions[resolutionIndex][0];
+			int height = resolutions[resolutionIndex][1];
+
+			Window.WIDTH = width;
+			Window.HEIGHT = height;
+
+			try {
+				container.setDisplayMode(Window.WIDTH, Window.HEIGHT, fullscreen);
+			}catch(SlickException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
