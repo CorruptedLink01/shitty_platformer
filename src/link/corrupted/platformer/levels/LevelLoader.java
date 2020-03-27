@@ -21,7 +21,7 @@ import static link.corrupted.platformer.resources.Resources.TILE_SIZE;
 
 public class LevelLoader {
 
-	public static final int RENDER_SIZE = (int)(TILE_SIZE * 0.7F);
+	public static final int RENDER_SIZE = (int)(TILE_SIZE * 0.8F);
 	public static final float SCALE = (float)TILE_SIZE / (float)RENDER_SIZE;
 
 	private static Image[][] background;
@@ -99,6 +99,7 @@ public class LevelLoader {
 					break;
 				case "objects":
 					parseObjectData(layer.getAsJsonArray("objects"));
+					break;
 			}
 		}
 	}
